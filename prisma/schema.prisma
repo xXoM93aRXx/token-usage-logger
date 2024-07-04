@@ -11,5 +11,5 @@ model TokenUsage {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   tokenCount Int
   model      String
-  user       String  
+  name       String  
 }

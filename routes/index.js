@@ -5,12 +5,12 @@ const prisma = require('../lib/prisma')
 
 // Log token usage (add or update)
 router.post('/log-token-usage',async(req,res)=>{
-    const {user,tokenCount,model} = req.body;
+    const {name,tokenCount,model} = req.body;
 
     try {
         const existingUsage = await prisma.tokenUsage.findFirst({
             where:{
-                user,
+                name,
                 model
             }
         })
@@ -27,7 +27,7 @@ router.post('/log-token-usage',async(req,res)=>{
         }else{
             const newTokenUsage = await prisma.tokenUsage.create({
                 data:{
-                    user,
+                    name,
                     tokenCount,
                     model
                 }
@@ -42,11 +42,11 @@ router.post('/log-token-usage',async(req,res)=>{
 
 // Get token usage
 router.get('/user-token-usage',async(req,res)=>{
-    const {user} = req.query
+    const {name} = req.query
 
     try {
-        const tokenUsages = user
-        ? await prisma.tokenUsage.findMany({where:{user}})
+        const tokenUsages = name
+        ? await prisma.tokenUsage.findMany({where:{name}})
         :await prisma.tokenUsage.findMany()
     res.status(200).json(tokenUsages)
     } catch (error) {
@@ -58,10 +58,10 @@ router.get('/user-token-usage',async(req,res)=>{
 
 // Reset token usage
 router.post('/reset-token-usage',async(req,res)=>{
-    const {user} = req.body
+    const {name} = req.body
 
     try {
-       await prisma.tokenUsage.deleteMany({where:{user}}) 
+       await prisma.tokenUsage.deleteMany({where:{name}}) 
        res.send(200).json({message: 'Token usage reset successfully'})
     } catch (error) {
         console.log(error)
