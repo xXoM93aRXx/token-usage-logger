@@ -1,0 +1,15 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model TokenUsage {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  tokenCount Int
+  model      String
+  user       String   @db.ObjectId
+}
