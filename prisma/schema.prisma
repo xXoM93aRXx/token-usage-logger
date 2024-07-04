@@ -7,7 +7,7 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model TokenUsage {
+model Consumption {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   inputTokenCount Int
   outputTokenCount Int
