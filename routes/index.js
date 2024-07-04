@@ -5,7 +5,7 @@ const prisma = require('../lib/prisma')
 
 // Log token usage (add or update)
 router.post('/log-token-usage',async(req,res)=>{
-    const {name,tokenCount,model} = req.body;
+    const {name,inputTokenCount,outputTokenCount,model} = req.body;
 
     try {
         const existingUsage = await prisma.tokenUsage.findFirst({
@@ -20,7 +20,8 @@ router.post('/log-token-usage',async(req,res)=>{
                 where:{
                     id:existingUsage.id,
                 },data:{
-                    tokenCount:existingUsage.tokenCount + tokenCount,
+                    inputTokenCount:existingUsage.inputTokenCount + inputTokenCount,
+                    outputTokenCount:existingUsage.outputTokenCount + inputTokenCount,
                 },
             })
             res.status(200).json(updatedUsage)
@@ -28,7 +29,8 @@ router.post('/log-token-usage',async(req,res)=>{
             const newTokenUsage = await prisma.tokenUsage.create({
                 data:{
                     name,
-                    tokenCount,
+                    inputTokenCount,
+                    outputTokenCount,
                     model
                 }
             })

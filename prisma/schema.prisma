@@ -9,7 +9,8 @@ generator client {
 
 model TokenUsage {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  tokenCount Int
+  inputTokenCount Int
+  outputTokenCount Int
   model      String
   name       String  
 }
